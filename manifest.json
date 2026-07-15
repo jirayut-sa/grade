@@ -1,0 +1,32 @@
+{
+  "name": "ระบบบันทึกคะแนนนักเรียน - โรงเรียนบ้านโคกประดู่",
+  "short_name": "คะแนนบ้านโคกประดู่",
+  "description": "ระบบบันทึกคะแนน จัดการข้อมูลนักเรียน และรายงานผลการเรียน โรงเรียนบ้านโคกประดู่",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBF6EC",
+  "theme_color": "#7A1F1F",
+  "lang": "th",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
