@@ -822,7 +822,7 @@ function renderAdminEnroll(content){
       <input type="checkbox" class="enrollChk" value="${st.StudentID}" onchange="updateEnrollCount()" ${enrolledIds.includes(st.StudentID)?'checked':''}>
       <span>${escapeHTML(st.FullName)}</span>
     </label>`).join('')}</div>
-  <button class="btn btn-primary btn-block" style="margin-top:16px;" onclick="submitEnrollment()">${ICONS.check}บันทึกการลงทะเบียน (<span id="enrollSelectedCount">${enrolledIds.length}</span> คน)</button>`;
+  <button class="btn btn-primary btn-block" style="margin-top:16px;" onclick="submitEnrollment(content)">${ICONS.check}บันทึกการลงทะเบียน (<span id="enrollSelectedCount">${enrolledIds.length}</span> คน)</button>`;
 }
 function setEnrollSel(key,val){ STATE.ui.admin.enroll[key]=val; render(); }
 function toggleEnrollSelectAll(checked){
