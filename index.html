@@ -794,19 +794,27 @@ function setStudentFilter(v){ STATE.ui.admin.studentFilter = v; render(); }
 
 function renderAdminEnroll(content){
   const e = STATE.ui.admin.enroll;
+  const hasSelection = !!(e.subjectId && e.classId);
+  const classStudentsPreview = hasSelection ? STATE.students.filter(s=>s.ClassID===e.classId) : [];
+  const canSaveTop = hasSelection && classStudentsPreview.length>0;
   content.innerHTML = `<div class="select-row">
     <div class="field"><label>รายวิชา</label><select onchange="setEnrollSel('subjectId', this.value)">
       <option value="">เลือกวิชา</option>
       ${STATE.subjects.map(s=>`<option value="${s.SubjectID}" ${e.subjectId===s.SubjectID?'selected':''}>${escapeHTML(s.SubjectName)}</option>`).join('')}
     </select></div>
-    <div class="field"><label>ชั้นเรียน</label><select onchange="setEnrollSel('classId', this.value)">
-      <option value="">เลือกชั้น</option>
-      ${STATE.classes.map(c=>`<option value="${c.ClassID}" ${e.classId===c.ClassID?'selected':''}>${escapeHTML(c.ClassName)}</option>`).join('')}
-    </select></div>
+    <div class="field"><label>ชั้นเรียน</label>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <select onchange="setEnrollSel('classId', this.value)" style="flex:1;min-width:0;">
+          <option value="">เลือกชั้น</option>
+          ${STATE.classes.map(c=>`<option value="${c.ClassID}" ${e.classId===c.ClassID?'selected':''}>${escapeHTML(c.ClassName)}</option>`).join('')}
+        </select>
+        <button type="button" class="btn btn-primary" id="enrollSaveTopBtn" onclick="submitEnrollment()" ${canSaveTop?'':'disabled'} style="white-space:nowrap;flex-shrink:0;padding:0 14px;">${ICONS.check}บันทึก</button>
+      </div>
+    </div>
   </div><div id="enrollBody"></div>`;
   const body = document.getElementById('enrollBody');
-  if(!e.subjectId || !e.classId){ body.innerHTML = emptyRowHTML('เลือกวิชาและชั้นเรียนเพื่อจับคู่ลงทะเบียน'); return; }
-  const classStudents = STATE.students.filter(s=>s.ClassID===e.classId).sort((a,b)=>String(a.FullName).localeCompare(String(b.FullName),'th'));
+  if(!hasSelection){ body.innerHTML = emptyRowHTML('เลือกวิชาและชั้นเรียนเพื่อจับคู่ลงทะเบียน'); return; }
+  const classStudents = classStudentsPreview.slice().sort((a,b)=>String(a.FullName).localeCompare(String(b.FullName),'th'));
   const enrolledIds = STATE.enrollments.filter(en=>en.SubjectID===e.subjectId && en.ClassID===e.classId).map(en=>en.StudentID);
   if(classStudents.length===0){ body.innerHTML = emptyRowHTML('ชั้นเรียนนี้ยังไม่มีนักเรียน'); return; }
   const allChecked = enrolledIds.length === classStudents.length;
@@ -822,7 +830,7 @@ function renderAdminEnroll(content){
       <input type="checkbox" class="enrollChk" value="${st.StudentID}" onchange="updateEnrollCount()" ${enrolledIds.includes(st.StudentID)?'checked':''}>
       <span>${escapeHTML(st.FullName)}</span>
     </label>`).join('')}</div>
-  <button class="btn btn-primary btn-block" style="margin-top:16px;" onclick="submitEnrollment(content)">${ICONS.check}บันทึกการลงทะเบียน (<span id="enrollSelectedCount">${enrolledIds.length}</span> คน)</button>`;
+  <button class="btn btn-primary btn-block" style="margin-top:16px;" onclick="submitEnrollment()">${ICONS.check}บันทึกการลงทะเบียน (<span id="enrollSelectedCount">${enrolledIds.length}</span> คน)</button>`;
 }
 function setEnrollSel(key,val){ STATE.ui.admin.enroll[key]=val; render(); }
 function toggleEnrollSelectAll(checked){
