@@ -1333,6 +1333,11 @@ async function init(){
   document.getElementById('loginScreen').style.display='block';
 }
 document.addEventListener('DOMContentLoaded', init);
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(err => console.warn('SW register failed:', err));
+  });
+}
 </script>
 </body>
 </html>
