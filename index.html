@@ -74,16 +74,22 @@ h1,h2,h3{font-family:var(--font-display);}
 /* ---------- Header ---------- */
 .app-header{position:relative;isolation:isolate;background:linear-gradient(155deg,var(--maroon-900) 0%,var(--maroon-600) 55%,var(--maroon-500) 100%);padding:calc(18px + env(safe-area-inset-top)) 20px 22px;border-radius:0 0 28px 28px;overflow:hidden;}
 .app-header__glow{position:absolute;top:-70px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(232,163,61,.38),transparent 70%);border-radius:50%;z-index:0;}
-.app-header__row{display:flex;align-items:center;gap:14px;position:relative;z-index:2;}
+.app-header__top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;position:relative;z-index:2;}
+.app-header__row{display:flex;align-items:center;gap:14px;min-width:0;flex:1 1 auto;}
+.app-header__titles{min-width:0;}
 .app-header__logo{width:56px;height:56px;border-radius:50%;background:#fff;padding:3px;box-shadow:var(--shadow-md);flex-shrink:0;}
 .app-header__logo img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
-.app-header__title{font-family:var(--font-display);font-weight:700;font-size:19px;color:#fff;line-height:1.3;}
-.app-header__subtitle{font-family:var(--font-body);font-size:13px;color:var(--gold-200);margin-top:1px;font-weight:600;}
+.app-header__title{font-family:var(--font-display);font-weight:700;font-size:19px;color:#fff;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.app-header__subtitle{font-family:var(--font-body);font-size:13px;color:var(--gold-200);margin-top:1px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .app-header__date{font-size:11.5px;color:rgba(255,255,255,.65);margin-top:12px;position:relative;z-index:2;}
-.app-header__user{position:absolute;top:calc(14px + env(safe-area-inset-top));right:16px;z-index:3;display:flex;align-items:center;gap:8px;}
-.app-header__role-badge{font-size:10.5px;font-weight:700;color:#fff;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:5px 10px;border-radius:var(--radius-full);}
-.app-header__logout{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;color:#fff;}
+.app-header__user{position:relative;z-index:3;display:flex;align-items:center;gap:8px;flex-shrink:0;max-width:100%;}
+.app-header__role-badge{font-size:10.5px;font-weight:700;color:#fff;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:5px 10px;border-radius:var(--radius-full);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.app-header__logout{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;}
 .app-header__logout svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;}
+@media (max-width:360px){
+  .app-header__role-badge{max-width:96px;}
+  .app-header__title{font-size:17px;}
+}
 
 /* ---------- Screen title ---------- */
 .screen-title{position:sticky;top:0;z-index:20;background:var(--cream-50);padding:16px 16px 10px;}
@@ -295,17 +301,19 @@ table.report-table{width:100%;border-collapse:collapse;font-size:13.5px;backgrou
 <div id="appShell" style="display:none;">
 <header class="app-header">
   <div class="app-header__glow"></div>
-  <div class="app-header__user">
-    <span class="app-header__role-badge" id="roleBadge"></span>
-    <button class="app-header__logout" onclick="doLogout()" title="ออกจากระบบ">
-      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
-    </button>
-  </div>
-  <div class="app-header__row">
-    <div class="app-header__logo"><img src="logo.png" alt="ตราโรงเรียนบ้านโคกประดู่" onerror="this.style.display='none'"></div>
-    <div>
-      <div class="app-header__title">โรงเรียนบ้านโคกประดู่</div>
-      <div class="app-header__subtitle">ระบบบันทึกคะแนนนักเรียน</div>
+  <div class="app-header__top">
+    <div class="app-header__row">
+      <div class="app-header__logo"><img src="logo.png" alt="ตราโรงเรียนบ้านโคกประดู่" onerror="this.style.display='none'"></div>
+      <div class="app-header__titles">
+        <div class="app-header__title">โรงเรียนบ้านโคกประดู่</div>
+        <div class="app-header__subtitle">ระบบบันทึกคะแนนนักเรียน</div>
+      </div>
+    </div>
+    <div class="app-header__user">
+      <span class="app-header__role-badge" id="roleBadge"></span>
+      <button class="app-header__logout" onclick="doLogout()" title="ออกจากระบบ">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+      </button>
     </div>
   </div>
   <div class="app-header__date" id="headerDate"></div>
@@ -327,7 +335,7 @@ table.report-table{width:100%;border-collapse:collapse;font-size:13.5px;backgrou
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
+<script src="chart.min.js"></script>
 <script>
 /* ============================================================
    ตั้งค่า: วางลิงก์ Google Apps Script Web App ของคุณตรงนี้
@@ -445,9 +453,29 @@ async function reloadData(){
     STATE.enrollments = data.enrollments || [];
     STATE.scores = data.scores || [];
     STATE.users = data.users || [];
+    saveDataCache();
   }catch(err){
     showToast(err.message, 'error');
   }
+}
+function dataCacheKey(){ return 'kokpradu_data_'+(AUTH.username||'anon'); }
+function saveDataCache(){
+  try{
+    localStorage.setItem(dataCacheKey(), JSON.stringify({
+      subjects:STATE.subjects, classes:STATE.classes, students:STATE.students,
+      enrollments:STATE.enrollments, scores:STATE.scores, users:STATE.users
+    }));
+  }catch(e){ /* เต็มหรือใช้งานไม่ได้ ไม่ใช่ปัญหาร้ายแรง ข้ามไป */ }
+}
+function loadDataCache(){
+  try{
+    const raw = localStorage.getItem(dataCacheKey());
+    if(!raw) return false;
+    const c = JSON.parse(raw);
+    STATE.subjects = c.subjects||[]; STATE.classes = c.classes||[]; STATE.students = c.students||[];
+    STATE.enrollments = c.enrollments||[]; STATE.scores = c.scores||[]; STATE.users = c.users||[];
+    return true;
+  }catch(e){ return false; }
 }
 
 /* ---------- Auth flows ---------- */
@@ -506,10 +534,16 @@ async function enterApp(){
   bindNav();
   updateHeaderDate();
   buildBottomNav();
-  showLoading(true,'กำลังโหลดข้อมูล...');
-  await reloadData();
-  showLoading(false);
-  render();
+  const hasCache = loadDataCache();
+  if(hasCache){
+    render();
+    reloadData().then(render).catch(()=>{});
+  } else {
+    showLoading(true,'กำลังโหลดข้อมูล...');
+    await reloadData();
+    showLoading(false);
+    render();
+  }
 }
 
 /* ---------- UI: toast / loading / modal ---------- */
@@ -666,6 +700,12 @@ function renderDashboard(view, titleEl){
   }
 }
 function drawDashboardCharts(){
+  if(typeof Chart==='undefined'){
+    document.querySelectorAll('.chart-card canvas').forEach(c=>{
+      c.insertAdjacentHTML('afterend','<div class="empty-row" style="margin-top:8px;">โหลดกราฟไม่สำเร็จ กรุณาลองรีเฟรชหน้าใหม่</div>');
+    });
+    return;
+  }
   const subjLabels = STATE.subjects.map(s=>s.SubjectName);
   const subjAverages = STATE.subjects.map(s=>{
     const studentIds = [...new Set(STATE.enrollments.filter(e=>e.SubjectID===s.SubjectID).map(e=>e.StudentID))];
@@ -702,6 +742,10 @@ function drawDashboardCharts(){
 function drawClassTrendChart(subjectId, students){
   const ctx = document.getElementById('chartClassTrend');
   if(!ctx) return;
+  if(typeof Chart==='undefined'){
+    ctx.insertAdjacentHTML('afterend','<div class="empty-row" style="margin-top:8px;">โหลดกราฟไม่สำเร็จ กรุณาลองรีเฟรชหน้าใหม่</div>');
+    return;
+  }
   const maxRound = Math.max(1, ...students.map(st=>scoresFor(subjectId, st.StudentID).length));
   const avgPerRound = [];
   for(let r=1;r<=maxRound;r++){
@@ -853,7 +897,10 @@ async function submitEnrollment(){
   try{
     showLoading(true,'กำลังบันทึก...');
     await apiPost('setEnrollment', {subjectId:sel.subjectId, classId:sel.classId, studentIds:ids});
-    await reloadData(); render();
+    STATE.enrollments = STATE.enrollments.filter(e=>!(e.SubjectID===sel.subjectId && e.ClassID===sel.classId));
+    ids.forEach(sid=>{ STATE.enrollments.push({SubjectID:sel.subjectId, ClassID:sel.classId, StudentID:sid}); });
+    saveDataCache();
+    render();
     showToast('บันทึกการลงทะเบียนแล้ว','success');
   }catch(err){ showToast(err.message,'error'); } finally{ showLoading(false); }
 }
@@ -1027,7 +1074,10 @@ async function submitScore(studentId){
   try{
     showLoading(true,'กำลังบันทึก...');
     const res = await apiPost('addScore', {subjectId:r.subjectId, classId:r.classId, studentId, scoreValue:val});
-    await reloadData(); closeModal(); render();
+    const scoreRecord = Object.assign({SubjectID:r.subjectId, ClassID:r.classId, StudentID:studentId, ScoreValue:val}, res);
+    STATE.scores.push(scoreRecord);
+    saveDataCache();
+    closeModal(); render();
     showToast(`บันทึกคะแนนครั้งที่ ${res.Round} เรียบร้อย`, 'success');
   }catch(err){ showToast(err.message,'error'); } finally{ showLoading(false); }
 }
@@ -1036,7 +1086,9 @@ async function deleteScoreConfirm(scoreId){
   try{
     showLoading(true,'กำลังลบ...');
     await apiPost('deleteScore', {scoreId});
-    await reloadData(); closeModal(); render();
+    STATE.scores = STATE.scores.filter(s=>s.ScoreID!==scoreId);
+    saveDataCache();
+    closeModal(); render();
     showToast('ลบคะแนนแล้ว','success');
   }catch(err){ showToast(err.message,'error'); } finally{ showLoading(false); }
 }
@@ -1102,23 +1154,44 @@ async function exportReportPDF(){
   showLoading(true, 'กำลังสร้างไฟล์ PDF...');
   try{
     const canvas = await html2canvas(el, {scale:2, backgroundColor:'#ffffff'});
-    const imgData = canvas.toDataURL('image/png');
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF('p','pt','a4');
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
-    const imgWidth = pageWidth;
-    const imgHeight = canvas.height * imgWidth / canvas.width;
-    let heightLeft = imgHeight;
-    let position = 0;
-    pdf.addImage(imgData,'PNG',0,position,imgWidth,imgHeight);
-    heightLeft -= pageHeight;
-    while(heightLeft > 0){
-      position -= pageHeight;
-      pdf.addPage();
-      pdf.addImage(imgData,'PNG',0,position,imgWidth,imgHeight);
-      heightLeft -= pageHeight;
+
+    /* ระยะขอบตามที่กำหนด: บน/ซ้าย 2.5 นิ้ว, ล่าง/ขวา 1.5 นิ้ว (1 นิ้ว = 72pt) */
+    const marginTop = 2.5 * 72;
+    const marginLeft = 2.5 * 72;
+    const marginBottom = 1.5 * 72;
+    const marginRight = 1.5 * 72;
+
+    const contentWidth = pageWidth - marginLeft - marginRight;
+    const contentHeight = pageHeight - marginTop - marginBottom;
+
+    /* สเกลพิกเซล(ของ canvas)ต่อพอยต์ ตามความกว้างของพื้นที่พิมพ์จริงที่เหลือ */
+    const pxPerPt = canvas.width / contentWidth;
+    const sliceHeightPx = Math.max(1, Math.floor(contentHeight * pxPerPt));
+
+    const sliceCanvas = document.createElement('canvas');
+    sliceCanvas.width = canvas.width;
+    const sliceCtx = sliceCanvas.getContext('2d');
+
+    let renderedPx = 0;
+    let firstPage = true;
+    while(renderedPx < canvas.height){
+      const thisSlicePx = Math.min(sliceHeightPx, canvas.height - renderedPx);
+      sliceCanvas.height = thisSlicePx;
+      sliceCtx.clearRect(0,0,sliceCanvas.width,thisSlicePx);
+      sliceCtx.drawImage(canvas, 0, renderedPx, canvas.width, thisSlicePx, 0, 0, canvas.width, thisSlicePx);
+      const sliceData = sliceCanvas.toDataURL('image/png');
+      const sliceHeightPt = thisSlicePx / pxPerPt;
+      if(!firstPage) pdf.addPage();
+      /* วางภาพเฉพาะภายในกรอบขอบเขต [marginLeft, marginTop] เท่านั้น จึงไม่มีทางล้นทับระยะขอบ */
+      pdf.addImage(sliceData, 'PNG', marginLeft, marginTop, contentWidth, sliceHeightPt);
+      renderedPx += thisSlicePx;
+      firstPage = false;
     }
+
     pdf.save(`รายงานคะแนน_${subject?subject.SubjectName:''}_${cls?cls.ClassName:''}.pdf`);
   }catch(err){
     showToast('สร้าง PDF ไม่สำเร็จ: '+err.message, 'error');
