@@ -1160,10 +1160,11 @@ async function exportReportPDF(){
     const pageHeight = pdf.internal.pageSize.getHeight();
 
     /* ระยะขอบตามที่กำหนด: บน/ซ้าย 2.5 นิ้ว, ล่าง/ขวา 1.5 นิ้ว (1 นิ้ว = 72pt) */
-    const marginTop = 2.5 * 72;
-    const marginLeft = 2.5 * 72;
-    const marginBottom = 1.5 * 72;
-    const marginRight = 1.5 * 72;
+    const PT_PER_CM = 72 / 2.54;
+    const marginTop = 2.5 * PT_PER_CM;   // บน 2.5 ซม.
+    const marginLeft = 2.5 * PT_PER_CM;  // ซ้าย 2.5 ซม.
+    const marginBottom = 1.5 * PT_PER_CM; // ล่าง 1.5 ซม.
+    const marginRight = 1.5 * PT_PER_CM;  // ขวา 1.5 ซม.
 
     const contentWidth = pageWidth - marginLeft - marginRight;
     const contentHeight = pageHeight - marginTop - marginBottom;
